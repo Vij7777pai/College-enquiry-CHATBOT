@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Inquiry Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f9fc;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .chat-container {
+            max-width: 400px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .chat-header {
+            background-color: #007bff;
+            color: #fff;
+            text-align: center;
+            padding: 15px;
+            font-size: 20px;
+            border-bottom: 1px solid #ccc;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .chat-box {
+            max-height: 300px;
+            overflow-y: scroll;
+            padding: 20px;
+            scrollbar-width: thin;
+            scrollbar-color: #ccc #f0f0f0;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .message {
+            margin: 10px 0;
+            padding: 5px 10px;
+            border-radius: 10px;
+        }
+
+        .user-message {
+            background-color: #cce5ff;
+            color: #007bff;
+        }
+
+        .bot-message {
+            background-color: #e5f3ff;
+            color: #007bff;
+        }
+
+        .input-container {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .input-field {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 25px;
+            background-color: #f0f0f0;
+            outline: none;
+            font-size: 16px;
+        }
+
+        .send-button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-left: 10px;
+            font-size: 16px;
+            transition: background-color 0.2s;
+        }
+
+        .send-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Chatbot animation */
+        .animate-bounce {
+            animation: bounce 0.8s infinite;
+            animation-timing-function: ease-in-out;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="chat-container">
+        <div class="chat-header">College Inquiry Chatbot</div>
+        <div class="chat-box" id="chatBox">
+            <div class="message bot-message animate-bounce">Hello! How can I assist you with your college inquiry?</div>
+        </div>
+        <div class="input-container">
+            <input type="text" class="input-field" id="userInput" placeholder="Type your message...">
+            <button class="send-button" onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        function appendMessage(message, sender) {
+            const chatBox = document.getElementById('chatBox');
+            const messageElement = document.createElement('div');
+            messageElement.textContent = message;
+            messageElement.classList.add('message', sender === 'user' ? 'user-message' : 'bot-message');
+            chatBox.appendChild(messageElement);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+        function processUserInput(userInput) {
+           
+            const lowerCaseInput = userInput.toLowerCase();
+        if (lowerCaseInput.includes("admission") || lowerCaseInput.includes("apply")) {
+                return "To apply for admission, please visit our college website and navigate to the admissions section.";
+            } else if (lowerCaseInput.includes("courses") || lowerCaseInput.includes("programs")) {
+                return "We offer various undergraduate and postgraduate courses in Engineering, Arts, Science, and Commerce.";
+            } else if (lowerCaseInput.includes("fees") || lowerCaseInput.includes("tuition")) {
+                return "For detailed information about tuition fees and other expenses, please check the Fees section on our website.";
+            } else if (lowerCaseInput.includes("contact") || lowerCaseInput.includes("address")) {
+                return "You can find our college address and contact details on the Contact Us page of our website.";
+            } else {
+                return "I'm sorry, but I couldn't understand your query. Please try again with a different question.";
+            }
+          }
+        function sendMessage() {
+            const userInput = document.getElementById('userInput').value.trim();
+            if (userInput === '') return;
+
+            appendMessage(userInput, 'user');
+
+
+            document.getElementById('userInput').value = '';
+
+           
+            setTimeout(() => {
+                const botResponse = processUserInput(userInput);
+                appendMessage(botResponse, 'bot');
+            }, 500); 
+        }
+    </script>
+</body>
+
+</html>
